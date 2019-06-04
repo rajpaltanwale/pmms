@@ -27,18 +27,8 @@ class ProgramMaster(models.Model):
     def __str__(self):
         return str(self.collegeID) + " - " + self.ProgramName
 
-'''
-class DepartmentMaster(models.Model):
-    DepartmentID = models.AutoField(primary_key=True)
-    collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
-    programID = models.ForeignKey(ProgramMaster, on_delete=models.CASCADE, null=True)    
-    DepartmentCode = models.CharField(null=False, max_length=50)
-    DepartmentName = models.CharField(null=False, max_length=100)
 
-    def __str__(self):
-        return self.DepartmentCode + " - " + self.DepartmentName
 
-'''
 class DepartmentMaster(models.Model):
     DepartmentID = models.AutoField(primary_key=True)
     collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
@@ -83,14 +73,86 @@ class StreamMaster(models.Model):
     def __str__(self):
         return str(self.departmentID) + " - " + str(self.StreamCode)
 
+class SignupMaster(models.Model):
+    StudentID = models.AutoField(primary_key=True)    
+    collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
+    programID = ChainedForeignKey(
+    ProgramMaster,
+    chained_field="collegeID",
+    chained_model_field="collegeID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True) 
+    departmentID = ChainedForeignKey(
+    DepartmentMaster,
+    chained_field="collegeID",
+    chained_model_field="collegeID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True)    
+    streamID = ChainedForeignKey(
+    StreamMaster,
+    chained_field="collegeID",
+    chained_model_field="collegeID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True,
+    blank=True)
+    student_Enrollment = models.IntegerField(null=True)
+    first_Name = models.CharField(max_length=15, null=True)
+    middle_Name = models.CharField(max_length=15, blank=True)
+    last_Name = models.CharField(max_length=20, null=True)
+    emailID= models.CharField(max_length=45, null=True)
+  #  DerivedUserFrom = models.IntegerField(choices=((1, 'Student'), (2, 'Internal Faculty'), (3, 'External Faculty')))
+
+    def __str__(self):
+        if str(self.streamID) == "None":
+            return str(self.departmentID) + " - " + str(self.student_Enrollment) 
+        else:
+            return str(self.streamID) + " - " + str(self.student_Enrollment)
+
+class LoginMaster(models.Model):
+    UserID = models.AutoField(primary_key=True)
+    collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
+    programID = ChainedForeignKey(
+    ProgramMaster,
+    chained_field="collegeID",
+    chained_model_field="collegeID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True) 
+    departmentID = ChainedForeignKey(
+    DepartmentMaster,
+    chained_field="programID",
+    chained_model_field="programID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True)    
+    streamID = ChainedForeignKey(
+    StreamMaster,
+    chained_field="departmentID",
+    chained_model_field="departmentID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    blank=True,
+    null=True)
+    studentID = models.ForeignKey(SignupMaster, on_delete=models.CASCADE, null=True)
+    LoginID = models.CharField(max_length=50)
+    Password = models.CharField(max_length=200)
+  #  DerivedUserFrom = models.IntegerField(choices=((1, 'Student'), (2, 'Internal Faculty'), (3, 'External Faculty')))
+
+    def __str__(self):
+        return str(self.LoginID)
 
 
-''' 
-    #programID = (ProgramMaster.objects.raw("SELECT * FROM ProgramMaster WHERE DepartmentMaster.collegeID = ProgramMaster.collegeID"))
-    #ProgramID = models.ForeignKey(ProgramMaster, on_delete=models.CASCADE, null=True)
-    def my_custon_sql(self):
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM ProgramMaster WHERE DepartmentMaster.collegeID = ProgramMaster.collegeID")
-        row = cursor.fetchall
-        return row
-''' 
+
+
+
+
+

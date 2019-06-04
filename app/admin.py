@@ -7,7 +7,7 @@ from guardian.admin import GuardedModelAdmin
 
 
 # Register your models here.
-from . models import CollegeMaster,  ProgramMaster, DepartmentMaster, StreamMaster
+from . models import CollegeMaster,  ProgramMaster, DepartmentMaster, StreamMaster, LoginMaster, SignupMaster
  #mymodels=[CollegeMaster,]
 
 
@@ -19,4 +19,6 @@ admin.site.register(CollegeMaster, SomeModelAdmin)
 admin.site.register(ProgramMaster, SomeModelAdmin)
 admin.site.register(DepartmentMaster, SomeModelAdmin)
 admin.site.register(StreamMaster, SomeModelAdmin)
+admin.site.register(LoginMaster, SomeModelAdmin)
+admin.site.register(SignupMaster, SomeModelAdmin)
 #admin.site.register(mymodels)
