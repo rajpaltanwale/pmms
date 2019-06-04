@@ -1,0 +1,24 @@
+Step 1: Remove existing version of django-smart-selects. Type pip uninstall django-smart-selects in the terminal.
+
+Step 2: Install the JS-lint branch by typing
+
+pip install git+https://github.com/digi604/django-smart-selects.git@js-unlinting-fixes` in the terminal
+in the terminal.
+
+Step 3: Add 'smart_selects', to the INSTALLED_APPS list in settings.py.
+
+Step 4: Add from smart_selects.db_fields import ChainedForeignKey in models.py of your app.
+
+Step 5: Add the smart_selects urls into your project's urls.py. This is needed for the Chained Selects and Chained ManyToMany selects. For example:
+
+urlpatterns = patterns('',
+url(r'^admin/', include(admin.site.urls)),
+url(r'^chaining/', include('smart_selects.urls')),
+)
+Step 6: You will also need to include jQuery in every page that includes a field from smart_selects. Add USE_DJANGO_JQUERY = True in your project's settings.py.
+
+Step 7: Add {{ form.media.js }} just before {{ form.as_table }} in your HTML file so that your Django form derived from the Django model reflects the smart-selects features.
+
+I'm using Python 2.7.10 and Django 1.11.
+
+All the best!
