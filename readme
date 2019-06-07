@@ -16,3 +16,9 @@ url(r'^admin/', include(admin.site.urls)),
 url(r'^chaining/', include('smart_selects.urls')),
 )
 Step 6: You will also need to include jQuery in every page that includes a field from smart_selects. Add USE_DJANGO_JQUERY = True in your project's settings.py.
+
+
+
+
+pip3 install django-guardian			 object level permissions
+pip install django-smart-selects		grouped foreign key
