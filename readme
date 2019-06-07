@@ -16,9 +16,3 @@ url(r'^admin/', include(admin.site.urls)),
 url(r'^chaining/', include('smart_selects.urls')),
 )
 Step 6: You will also need to include jQuery in every page that includes a field from smart_selects. Add USE_DJANGO_JQUERY = True in your project's settings.py.
-
-Step 7: Add {{ form.media.js }} just before {{ form.as_table }} in your HTML file so that your Django form derived from the Django model reflects the smart-selects features.
-
-I'm using Python 2.7.10 and Django 1.11.
-
-All the best!
