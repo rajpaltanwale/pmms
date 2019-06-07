@@ -154,5 +154,3 @@ class LoginMaster(models.Model):
 
 
 
-
-
