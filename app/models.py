@@ -142,7 +142,15 @@ class LoginMaster(models.Model):
     sort=True,
     blank=True,
     null=True)
-    studentID = models.ForeignKey(SignupMaster, on_delete=models.CASCADE, null=True)
+    studentID = ChainedForeignKey(
+    SignupMaster,
+    chained_field="departmentID",
+    chained_model_field="departmentID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    blank=True,
+    null=True)
     LoginID = models.CharField(max_length=50)
     Password = models.CharField(max_length=200)
   #  DerivedUserFrom = models.IntegerField(choices=((1, 'Student'), (2, 'Internal Faculty'), (3, 'External Faculty')))
@@ -150,7 +158,48 @@ class LoginMaster(models.Model):
     def __str__(self):
         return str(self.LoginID)
 
-
-
-
+class FileMaster(models.Model):
+    UserID = models.AutoField(primary_key=True)
+    collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
+    programID = ChainedForeignKey(
+    ProgramMaster,
+    chained_field="collegeID",
+    chained_model_field="collegeID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True) 
+    departmentID = ChainedForeignKey(
+    DepartmentMaster,
+    chained_field="programID",
+    chained_model_field="programID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True)    
+    streamID = ChainedForeignKey(
+    StreamMaster,
+    chained_field="departmentID",
+    chained_model_field="departmentID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    blank=True,
+    null=True)
+    studentID = ChainedForeignKey(
+    SignupMaster,
+    chained_field="departmentID",
+    chained_model_field="departmentID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    blank=True,
+    null=True)
+    pdf1 = models.FileField(upload_to='app/upload')
+    pdf2 = models.FileField(upload_to='app/upload')
+    pdf3 = models.FileField(upload_to='app/upload')
+    pdf4 = models.FileField(upload_to='app/upload')
+    
+    def __str__(self):
+        return str(self.studentID)
 
