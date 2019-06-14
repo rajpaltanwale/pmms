@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app',
     'smart_selects',
     'guardian',
+    'import_export',
 ]
 
 MIDDLEWARE = [

@@ -4,16 +4,18 @@ from django.contrib import admin
 # Object Level permisiions
 from guardian.admin import GuardedModelAdmin
 
-
+from import_export import resources
+from . models import FileMaster
 
 # Register your models here.
 from . models import CollegeMaster,  ProgramMaster, DepartmentMaster, StreamMaster, LoginMaster, SignupMaster, FileMaster
  #mymodels=[CollegeMaster,]
-
+ 
 
 
 class SomeModelAdmin(GuardedModelAdmin):
 	pass
+
 
 admin.site.register(CollegeMaster, SomeModelAdmin)
 admin.site.register(ProgramMaster, SomeModelAdmin)

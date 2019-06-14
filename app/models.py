@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 
 from smart_selects.db_fields import ChainedForeignKey
 
-from django.db import connection
+
+
 
 class CollegeMaster(models.Model):
     CollegeID = models.AutoField(primary_key=True)
@@ -23,9 +24,10 @@ class ProgramMaster(models.Model):
     collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
     ProgramName = models.CharField(max_length=50)
     ProgramAlias = models.CharField(max_length=50)
+    NumberOfSemester = models.IntegerField(null=True)
 
     def __str__(self):
-        return str(self.collegeID) + " - " + self.ProgramName
+        return str(self.ProgramID) + " - " + str(self.collegeID) + " - " + self.ProgramName
 
 
 
@@ -202,4 +204,43 @@ class FileMaster(models.Model):
     
     def __str__(self):
         return str(self.studentID)
+
+class ProjectTypeMaster(models.Model):
+    ProjectTypeID= models.AutoField(primary_key=True)
+    collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
+    programID = ChainedForeignKey(
+    ProgramMaster,
+    chained_field="collegeID",
+    chained_model_field="collegeID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True) 
+    departmentID = ChainedForeignKey(
+    DepartmentMaster,
+    chained_field="programID",
+    chained_model_field="programID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True)    
+    streamID = ChainedForeignKey(
+    StreamMaster,
+    chained_field="departmentID",
+    chained_model_field="departmentID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    blank=True,
+    null=True)
+    InSemester = models.IntegerField(choices=((1, 1), (2, 2), (3, 3)))  
+    ProjectType = models.CharField(max_length=20, null=True)
+
+    def __str__(self):
+        return str(self.departmentID) + " - " + str(self.StreamCode) + " - " + self.ProjectType  
+
+
+
+
+
 
