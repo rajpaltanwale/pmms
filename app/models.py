@@ -16,7 +16,7 @@ class CollegeMaster(models.Model):
     ModifiedDate = models.DateTimeField(auto_now=True, editable=True)
 
     def __str__(self):
-   	     return self.CollegeCode 
+   	     return str(self.CollegeID) + " - " + self.CollegeCode 
 
 
 class ProgramMaster(models.Model):
@@ -27,7 +27,7 @@ class ProgramMaster(models.Model):
     NumberOfSemester = models.IntegerField(null=True)
 
     def __str__(self):
-        return str(self.ProgramID) + " - " + str(self.collegeID) + " - " + self.ProgramName
+        return  str(self.collegeID) + " - " +str(self.ProgramID) + " - " + self.ProgramName
 
 
 
@@ -46,7 +46,7 @@ class DepartmentMaster(models.Model):
     DepartmentName = models.CharField(null=False, max_length=100)
 
     def __str__(self):
-        return str(self.programID) + " - " + self.DepartmentCode
+        return str(self.programID) + " - " + str(self.DepartmentID) + " - " + self.DepartmentCode
 
 class StreamMaster(models.Model):
 
@@ -73,8 +73,63 @@ class StreamMaster(models.Model):
 
 
     def __str__(self):
-        return str(self.departmentID) + " - " + str(self.StreamCode)
+        return str(self.departmentID) + " - " + str(self.StreamID) + " - " + str(self.StreamCode)
+'''
+class Signup(models.Model):  
+    collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
+    programID = ChainedForeignKey(
+    ProgramMaster,
+    chained_field="collegeID",
+    chained_model_field="collegeID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True) 
+    departmentID = ChainedForeignKey(
+    DepartmentMaster,
+    chained_field="collegeID",
+    chained_model_field="collegeID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True)    
+    streamID = ChainedForeignKey(
+    StreamMaster,
+    chained_field="collegeID",
+    chained_model_field="collegeID",
+    show_all=False,
+    auto_choose=True,
+    sort=True,
+    null=True,
+    blank=True)
+    student_Enrollment = models.IntegerField(null=True)
+    first_Name = models.CharField(max_length=15, null=True)
+    #middle_Name = models.CharField(max_length=15, blank=True, null=False)
+    last_Name = models.CharField(max_length=20, null=True)
+    emailID= models.CharField(max_length=45, null=True)
+  #  DerivedUserFrom = models.IntegerField(choices=((1, 'Student'), (2, 'Internal Faculty'), (3, 'External Faculty')))
+'''
+class Signup(models.Model):      
+    first_Name = models.CharField(max_length=15, null=True)
+    #middle_Name = models.CharField(max_length=15, blank=True, null=False)
+    last_Name = models.CharField(max_length=20, null=True)
+    student_Enrollment = models.IntegerField(null=True)
+    Branch = models.CharField(max_length=15, null=True)
+    semester = models.IntegerField(null=True)
+    emailID= models.CharField(max_length=45, null=True)
+  #  DerivedUserFrom = models.IntegerField(choices=((1, 'Student'), (2, 'Internal Faculty'), (3, 'External Faculty')))
 
+    class Meta:
+        abstract = True
+
+
+    def __str__(self):
+        return str(self.first_Name) + " " + str(self.last_Name) + " - " +  str(self.Branch) + " - semester - " + str(self.semester)
+        
+class SignupMaster(Signup):
+    pass
+
+'''
 class SignupMaster(models.Model):
     StudentID = models.AutoField(primary_key=True)    
     collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
@@ -115,7 +170,7 @@ class SignupMaster(models.Model):
             return str(self.departmentID) + " - " + str(self.student_Enrollment) 
         else:
             return str(self.streamID) + " - " + str(self.student_Enrollment)
-
+'''
 class LoginMaster(models.Model):
     UserID = models.AutoField(primary_key=True)
     collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)

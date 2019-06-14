@@ -5,23 +5,18 @@ from django.contrib import admin
 from guardian.admin import GuardedModelAdmin
 
 from import_export import resources
-from . models import FileMaster
+
+from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from . models import CollegeMaster,  ProgramMaster, DepartmentMaster, StreamMaster, LoginMaster, SignupMaster, FileMaster
+from . models import *
  #mymodels=[CollegeMaster,]
  
 
 
 class SomeModelAdmin(GuardedModelAdmin):
 	pass
+@admin.register(CollegeMaster,  ProgramMaster, DepartmentMaster, StreamMaster, LoginMaster, SignupMaster, FileMaster)
+class ViewAdmin(ImportExportModelAdmin):
+	exclude = ('id', )
 
-
-admin.site.register(CollegeMaster, SomeModelAdmin)
-admin.site.register(ProgramMaster, SomeModelAdmin)
-admin.site.register(DepartmentMaster, SomeModelAdmin)
-admin.site.register(StreamMaster, SomeModelAdmin)
-admin.site.register(LoginMaster, SomeModelAdmin)
-admin.site.register(SignupMaster, SomeModelAdmin)
-admin.site.register(FileMaster, SomeModelAdmin)
-#admin.site.register(mymodels)
