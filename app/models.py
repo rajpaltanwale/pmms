@@ -16,7 +16,7 @@ class CollegeMaster(models.Model):
     ModifiedDate = models.DateTimeField(auto_now=True, editable=True)
 
     def __str__(self):
-   	     return str(self.CollegeID) + " - " + self.CollegeCode 
+   	     return self.CollegeCode 
 
 
 class ProgramMaster(models.Model):
@@ -27,7 +27,7 @@ class ProgramMaster(models.Model):
     NumberOfSemester = models.IntegerField(null=True)
 
     def __str__(self):
-        return  str(self.collegeID) + " - " +str(self.ProgramID) + " - " + self.ProgramName
+        return  str(self.collegeID) + " - " + self.ProgramName
 
 
 
@@ -46,7 +46,7 @@ class DepartmentMaster(models.Model):
     DepartmentName = models.CharField(null=False, max_length=100)
 
     def __str__(self):
-        return str(self.programID) + " - " + str(self.DepartmentID) + " - " + self.DepartmentCode
+        return str(self.programID) + " - " + self.DepartmentCode
 
 class StreamMaster(models.Model):
 
@@ -62,8 +62,8 @@ class StreamMaster(models.Model):
     null=True) 
     departmentID = ChainedForeignKey(
     DepartmentMaster,
-    chained_field="collegeID",
-    chained_model_field="collegeID",
+    chained_field="programID",
+    chained_model_field="programID",
     show_all=False,
     auto_choose=True,
     sort=True,
@@ -73,7 +73,7 @@ class StreamMaster(models.Model):
 
 
     def __str__(self):
-        return str(self.departmentID) + " - " + str(self.StreamID) + " - " + str(self.StreamCode)
+        return str(self.departmentID) + " - " + str(self.StreamCode)
 '''
 class Signup(models.Model):  
     collegeID = models.ForeignKey(CollegeMaster, on_delete=models.CASCADE, null=True)
